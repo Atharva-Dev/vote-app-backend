@@ -11,6 +11,7 @@ from backend.blockchain.candidates import Candidate
 from backend.blockchain.blockchain import Blockchain
 from backend.blockchain.block import Block
 from backend.pubsub import PubSub
+from backend.validator import validator
 
 
 
@@ -42,30 +43,31 @@ def addblock():
             raise Exception("Time period expired!")
         if int(b.vote_to) < 0 or int(b.vote_to) > Candidate.getTotalCandidates() :
             raise Exception("Candidate error, No such candidate exist!")
-
         new_chain = copy.deepcopy(blockchain)
         new_chain.add_block(b)
         pubsub.broadcast_block(b)
     except Exception as e:
         print(e)
-        return "500" " malicious vote"
-    return "200" " vote casted successfully"
+        return jsonify({"code": 1, "message": "malicious vote"})
+    return jsonify({"code":0, "message": " vote casted successfully"})
 
 
 
-@app.route('/status', methods = ['GET'])
-def getstatus():
+@app.route('/status/<id>', methods = ['GET'])
+def getstatus(id):
     curr_time = datetime.now()
-
     if curr_time < start_time : 
-        return jsonify({"status":500, "message": "Voting has not started yet!"})
+        return jsonify({"code":1, "message": "Voting has not started yet!"})
     if curr_time > end_time :
-        return jsonify({"status":500,"message": " Voting time ended!"})
-    return jsonify({"status":200, "message": "ok"})
+        return jsonify({"code":1,"message": "Voting time ended!"})
+    if validator.has_voted(id) :
+        return jsonify({"code":1,"message": "Voter has already voted!"})
+
+    return jsonify({"code":0, "message": "ok"})
 
 
 
-@app.route('/admin/setvotingperiod' ,methods = ['POST'])
+@app.route('/setvotingperiod' ,methods = ['POST'])
 def setvotingperiod():
     global start_time
     global end_time
@@ -78,10 +80,12 @@ def setvotingperiod():
     except Exception as e:
         print(e)
         return "500" " Error setting time"
-    pass
 
+@app.route('/getcandidatelist', methods=['GET'])
+def getcandidatelist():
+    return jsonify(candidate_list)
 
-@app.route('/admin/addcandidate', methods = ['POST'])
+@app.route('/addcandidate', methods = ['POST'])
 def addcandidate():
     candidate_name = request.form['name']
     candidate_list.append(Candidate(candidate_name))
