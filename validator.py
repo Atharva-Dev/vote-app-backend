@@ -16,12 +16,12 @@ class Validator:
                 crawler.next[int(n)] = Node()
             crawler = crawler.next[int(n)]
         crawler.Exists = True;
+        print("voter added successfully")
+
 
     def has_voted(self, id):
-
         crawler = self.root
         for n in str(id):
-            
             if crawler.next[int(n)] is None : 
                 return False
             crawler = crawler.next[int(n)]
