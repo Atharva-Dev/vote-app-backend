@@ -6,8 +6,10 @@ def genesis():
     Generate The Genesis block
     """
     genesis_block = Block()
+    genesis_block.to=-1
     genesis_block.last_hash = 'last_hash'
     genesis_block.hash = crypto_hash(genesis_block)
+
     return genesis_block
 
 
@@ -23,6 +25,14 @@ class Block:
         self.hash = None
         
    
+    def __eq__(self, other):
+        if not isinstance(other, Block):
+
+            return NotImplemented
+        
+        return self.vote_to == other.vote_to and self.hash == other.hash and self.last_hash == other.last_hash
+
+
 
     def to_json(self):
         return self.__dict__
@@ -40,11 +50,14 @@ class Block:
 
     @staticmethod
     def is_valid_block(last_block, block):
-
+        
         try:
             if block.last_hash != last_block.hash:
                 raise Exception('The block last hash is incorrect')
-            if block.hash != crypto_hash(block):
+            eblk = Block()
+            eblk.vote_to = block.vote_to
+            eblk.last_hash = block.last_hash
+            if block.hash != crypto_hash(eblk):
                 raise Exception('The block hash is incorrect')
         except Exception as e:
             raise Exception(f'inside is_valid_block: {e}')

@@ -11,6 +11,7 @@ from backend.blockchain.blockchain import Blockchain
 from backend.blockchain.block import Block
 from backend.pubsub import PubSub
 from backend.validator import validator
+import backend.serverList as ServerList
 
 
 
@@ -19,20 +20,21 @@ CORS(app, resources={ r'/*' : { 'origins': 'http://localhost:3000' } })
 blockchain = Blockchain()
 pubsub =PubSub(blockchain)
 
-
 candidate_list = []
+
+# candidate_list = ['as', 'qwe', 'ode', 'rede']
 start_time = datetime.now()
 end_time = datetime.now()
 
 
 @app.route('/votechain')
 def default(): 
-    return jsonify(blockchain.to_json()[::-1])
+    return jsonify(blockchain.to_json())
 
 
 @app.route('/castvote', methods = ['POST'])
 def addblock():
-
+    global blockchain
     b = Block()
     print("request:", request.get_json())
     b.vote_to = request.get_json()['to']
@@ -104,14 +106,37 @@ def addcandidate():
     except Exception as e:
         print(e)
         return jsonify({"code":1})
-    
+
+@app.route('/addSampleBlock', methods=['GET'])
+def addSampleBlock():
+    global blockchain
+    b = Block()
+    b.vote_to = random.randint(0, 10)
+    new_chain = copy.deepcopy(blockchain)
+    new_chain.add_block(b)
+    pubsub.broadcast_block(b)
+    blockchain.add_block(b)
+    return jsonify({"code":len(blockchain.get_chain())})
+
+
+
+@app.route('/mutateBlock', methods=['GET'])
+def mutateBlock():
+    blockchain.add_dirty_block()
+
+
+
+
 
 PORT = 5000
 
 if os.environ.get('PEER') == 'True':
-    PORT = random.randint(5001, 6000)
-
-    result = requests.get('http://localhost:5000/votechain')
+    # PORT = random.randint(5001, 6000)
+    # while(PORT in ServerList.get_all_servers()) : 
+    #     PORT = random.randint(5001, 6000)
+    # ServerList.addServer(PORT)
+    PORT = 5010
+    result = requests.get(ServerList.baseURL+':5000/votechain')
     
     result_blockchain = Blockchain.from_json(result.json())
 
