@@ -1,3 +1,4 @@
+from backend.validator import csvfile
 from backend.blockchain.block import Block, genesis
 from backend.utils.crypto_hash import crypto_hash
 import backend.serverList as ServerList
@@ -9,6 +10,7 @@ class Blockchain:
     def __init__(self, name='chain'):
         self.name = name
         self.__chain = [genesis()]
+        self.result = False
     
     def get_chain(self) :
         return self.__chain[:]
@@ -69,6 +71,17 @@ class Blockchain:
     def __repr__(self):
         return "\n".join(list(map(str,self.__chain)))
 
+    def prepare_result(self):
+        if self.result is False :
+            with open(csvfile, 'w') as csv:
+                csv.write('time, vote to\n')
+                for i in range(1, len(self.__chain)) :
+                    print(i)
+                    csv.write(str(self.__chain[i].time))
+                    csv.write(',')
+                    csv.write(str(self.__chain[i].vote_to))
+                    csv.write('\n')
+        self.result = True
 
     @staticmethod
     def is_valid_chain(chain):

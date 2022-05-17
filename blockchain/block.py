@@ -9,7 +9,7 @@ def genesis():
     genesis_block.to=-1
     genesis_block.last_hash = 'last_hash'
     genesis_block.hash = crypto_hash(genesis_block)
-
+    genesis_block.time = 'now'
     return genesis_block
 
 
@@ -23,7 +23,7 @@ class Block:
         self.vote_to=-1
         self.last_hash = None
         self.hash = None
-        
+        self.time = str(datetime.now())
    
     def __eq__(self, other):
         if not isinstance(other, Block):

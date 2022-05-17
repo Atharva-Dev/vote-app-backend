@@ -1,3 +1,4 @@
+import os
 class Node:
     def __init__(self) :
         self.next = [None]*10;
@@ -29,7 +30,7 @@ class Validator:
 
 
 validator = Validator()
-
+csvfile = os.path.dirname(__file__) + '/app/result.csv'
 if __name__ == "__main__" :
     validator.add_voter(123456789198)
     validator.add_voter(123214345086)

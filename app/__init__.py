@@ -1,10 +1,11 @@
 import os
+from time import sleep
 import requests
 import random
 import copy
 from datetime import datetime
-
-from flask import Flask, jsonify, request
+from faker import Faker
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 
 from backend.blockchain.blockchain import Blockchain
@@ -116,14 +117,42 @@ def addSampleBlock():
     new_chain.add_block(b)
     pubsub.broadcast_block(b)
     blockchain.add_block(b)
-    return jsonify({"code":len(blockchain.get_chain())})
+    return jsonify({"length":len(blockchain.get_chain()), "to": b.vote_to})
 
 
+@app.route('/addSampleBlocks', methods=['GET'])
+def addSampleBlocks():
+    global blockchain
+    fake = Faker()
+    for i in range(50):
+        sleep(3)
+        b = Block()
+        b.time = str(fake.date_time_between(start_date='now', end_date='+5d'))
+        b.vote_to = random.randint(0, 10)
+        new_chain = copy.deepcopy(blockchain)
+        try:
+            new_chain.add_block(b)
+            pubsub.broadcast_block(b)
+            # print("voter id:",request.get_json()['by'])
+            #validator.add_voter(request.get_json()['by'])
+        except Exception as e:
+            print(e)
+            return jsonify({"code": 1, "message": "malicious vote"})
+    # blockchain.prepare_result()
+    return jsonify({"length":len(blockchain.get_chain())})
 
 @app.route('/mutateBlock', methods=['GET'])
 def mutateBlock():
     blockchain.add_dirty_block()
 
+
+
+@app.route('/getResult')
+def getReult() :
+    global blockchain
+    blockchain.prepare_result()
+    print(os.system('ls'))
+    return send_file('result.csv')
 
 
 
