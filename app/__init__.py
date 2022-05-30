@@ -11,7 +11,7 @@ from flask_cors import CORS
 from backend.blockchain.blockchain import Blockchain
 from backend.blockchain.block import Block
 from backend.pubsub import PubSub
-from backend.validator import validator, candidate_list
+from backend.validator import validator, candidate_list, result
 import backend.serverList as ServerList
 
 
@@ -87,6 +87,7 @@ def setvotingperiod():
         return jsonify({"code":0})
     except Exception as e:
         print(e)
+        result=False
         return jsonify({"code":1})
 
 @app.route('/getcandidatelist', methods=['GET'])
