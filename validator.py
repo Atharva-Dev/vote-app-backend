@@ -33,9 +33,11 @@ validator = Validator()
 csvfile = os.path.dirname(__file__) + '/app/result.csv'
 result=False
 candidate_list = ['Shubham', 'Ram','Atharva','Parth','Ashish','Piyush']
-def setcandidate_list(list) :
+def setcandidate_list(listt) :
     global  candidate_list
-    candidate_list = list
+    print('before:', listt)
+    candidate_list = listt
+    print('after:', candidate_list)
 if __name__ == "__main__" :
     validator.add_voter(123456789198)
     validator.add_voter(123214345086)
