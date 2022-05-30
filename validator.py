@@ -31,7 +31,7 @@ class Validator:
 
 validator = Validator()
 csvfile = os.path.dirname(__file__) + '/app/result.csv'
-
+result=False
 candidate_list = ['Shubham', 'Ram','Atharva','Parth','Ashish','Piyush']
 if __name__ == "__main__" :
     validator.add_voter(123456789198)
