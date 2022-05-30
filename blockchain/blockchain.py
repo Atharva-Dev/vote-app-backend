@@ -1,4 +1,5 @@
 from backend.validator import csvfile
+from backend.app import candidate_list
 from backend.blockchain.block import Block, genesis
 from backend.utils.crypto_hash import crypto_hash
 import backend.serverList as ServerList
@@ -79,7 +80,7 @@ class Blockchain:
                     print(i)
                     csv.write(str(self.__chain[i].time))
                     csv.write(',')
-                    csv.write(str(self.__chain[i].vote_to))
+                    csv.write(str(candidate_list[self.__chain[i].vote_to]))
                     csv.write('\n')
         self.result = True
 
