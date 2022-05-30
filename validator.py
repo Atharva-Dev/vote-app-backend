@@ -38,6 +38,11 @@ def setcandidate_list(listt) :
     print('before:', listt)
     candidate_list = listt
     print('after:', candidate_list)
+    
+    
+def getlist():
+    global candidate_list
+    return candidate_list
 if __name__ == "__main__" :
     validator.add_voter(123456789198)
     validator.add_voter(123214345086)
