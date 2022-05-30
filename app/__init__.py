@@ -113,7 +113,7 @@ def addcandidate():
 @app.route('/addSampleBlock', methods=['GET'])
 def addSampleBlock():
     global blockchain
-    max_index = len(candidate_list)
+    max_index = len(getlist())
     b = Block()
     b.vote_to = random.randint(0, max_index-1)
     new_chain = copy.deepcopy(blockchain)
@@ -127,7 +127,7 @@ def addSampleBlock():
 def addSampleBlocks():
     global blockchain
     fake = Faker()
-    max_index = len(candidate_list)
+    max_index = len(getlist())
     for i in range(50):
         sleep(3)
         b = Block()
