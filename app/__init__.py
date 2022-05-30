@@ -98,10 +98,10 @@ def getcandidatelist():
 
 @app.route('/addcandidates', methods = ['POST'])
 def addcandidate():
-   
+     
     try:
         json = request.get_json()
-        candidate_list = json['candidates']
+        Validator.candidate_list = json['candidates']
         print(candidate_list)
         return jsonify({"code":0})
     except Exception as e:
