@@ -1,5 +1,5 @@
 from backend.validator import csvfile
-from backend.app import candidate_list
+from backend.app.__init__ import candidate_list
 from backend.blockchain.block import Block, genesis
 from backend.utils.crypto_hash import crypto_hash
 import backend.serverList as ServerList
