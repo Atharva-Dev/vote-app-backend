@@ -98,7 +98,7 @@ def getcandidatelist():
 
 @app.route('/addcandidates', methods = ['POST'])
 def addcandidate():
-    global candidate_list
+   
     try:
         json = request.get_json()
         candidate_list = json['candidates']
