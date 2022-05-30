@@ -21,9 +21,9 @@ CORS(app, resources={ r'/*' : { 'origins': 'http://localhost:3000' } })
 blockchain = Blockchain()
 pubsub =PubSub(blockchain)
 
-candidate_list = []
+# candidate_list = []
 
-# candidate_list = ['as', 'qwe', 'ode', 'rede']
+candidate_list = ['Shubham', 'Ram','Atharva','Parth','Ashish','Piyush']
 start_time = datetime.now()
 end_time = datetime.now()
 
@@ -128,7 +128,7 @@ def addSampleBlocks():
         sleep(3)
         b = Block()
         b.time = str(fake.date_time_between(start_date='now', end_date='+5d'))
-        b.vote_to = random.randint(0, 10)
+        b.vote_to = random.randint(0, 5)
         new_chain = copy.deepcopy(blockchain)
         try:
             new_chain.add_block(b)
