@@ -92,16 +92,17 @@ def setvotingperiod():
 
 @app.route('/getcandidatelist', methods=['GET'])
 def getcandidatelist():
+    global  candidate_list
     print(candidate_list)
     print(jsonify(candidate_list))
     return jsonify(candidate_list)
 
 @app.route('/addcandidates', methods = ['POST'])
 def addcandidate():
-     
+    global candidate_list
     try:
         json = request.get_json()
-        Validator.candidate_list = json['candidates']
+        candidate_list = json['candidates']
         print(candidate_list)
         return jsonify({"code":0})
     except Exception as e:
