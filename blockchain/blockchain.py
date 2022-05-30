@@ -1,5 +1,5 @@
 from backend.validator import csvfile
-from backend.validator import candidate_list, result
+from backend.validator import getlist, result
 from backend.blockchain.block import Block, genesis
 from backend.utils.crypto_hash import crypto_hash
 import backend.serverList as ServerList
@@ -74,6 +74,7 @@ class Blockchain:
 
     def prepare_result(self):
         if result is False :
+            candidate_list = getlist()
             with open(csvfile, 'w') as csv:
                 csv.write('time, vote to\n')
                 for i in range(1, len(self.__chain)) :
