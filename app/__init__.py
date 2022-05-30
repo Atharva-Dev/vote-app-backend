@@ -11,7 +11,7 @@ from flask_cors import CORS
 from backend.blockchain.blockchain import Blockchain
 from backend.blockchain.block import Block
 from backend.pubsub import PubSub
-from backend.validator import validator, candidate_list, result
+from backend.validator import validator, candidate_list, result, setcandidate_list
 import backend.serverList as ServerList
 
 
@@ -102,7 +102,7 @@ def addcandidate():
     global candidate_list
     try:
         json = request.get_json()
-        candidate_list = json['candidates']
+        setcandidate_list(json['candidates'])
         print(candidate_list)
         return jsonify({"code":0})
     except Exception as e:
