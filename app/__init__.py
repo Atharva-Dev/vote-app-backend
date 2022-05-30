@@ -11,7 +11,7 @@ from flask_cors import CORS
 from backend.blockchain.blockchain import Blockchain
 from backend.blockchain.block import Block
 from backend.pubsub import PubSub
-from backend.validator import validator, candidate_list, result, setcandidate_list
+from backend.validator import validator, candidate_list, result, setcandidate_list, getlist
 import backend.serverList as ServerList
 
 
@@ -93,6 +93,7 @@ def setvotingperiod():
 @app.route('/getcandidatelist', methods=['GET'])
 def getcandidatelist():
     global  candidate_list
+    candidate_list = getlist()
     print(candidate_list)
     print(jsonify(candidate_list))
     return jsonify(candidate_list)
