@@ -35,7 +35,7 @@ result=False
 candidate_list = ['Shubham', 'Ram','Atharva','Parth','Ashish','Piyush']
 def setcandidate_list(list) :
     global  candidate_list
-     candidate_list = list
+    candidate_list = list
 if __name__ == "__main__" :
     validator.add_voter(123456789198)
     validator.add_voter(123214345086)
