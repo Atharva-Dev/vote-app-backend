@@ -111,7 +111,7 @@ def addcandidate():
 def addSampleBlock():
     global blockchain
     b = Block()
-    b.vote_to = random.randint(0, 10)
+    b.vote_to = random.randint(0, 5)
     new_chain = copy.deepcopy(blockchain)
     new_chain.add_block(b)
     pubsub.broadcast_block(b)
