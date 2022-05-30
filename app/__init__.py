@@ -11,7 +11,7 @@ from flask_cors import CORS
 from backend.blockchain.blockchain import Blockchain
 from backend.blockchain.block import Block
 from backend.pubsub import PubSub
-from backend.validator import validator
+from backend.validator import validator, candidate_list
 import backend.serverList as ServerList
 
 
@@ -23,7 +23,6 @@ pubsub =PubSub(blockchain)
 
 # candidate_list = []
 
-candidate_list = ['Shubham', 'Ram','Atharva','Parth','Ashish','Piyush']
 start_time = datetime.now()
 end_time = datetime.now()
 
